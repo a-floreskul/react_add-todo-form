@@ -7,6 +7,19 @@ import todosFromServer from './api/todos';
 import React, { useState } from 'react';
 import { Todo } from './types/Todo';
 
+function getUserById(userId: number): User {
+  return usersFromServer.find(user => user.id === userId) as User;
+}
+
+const mappedTodos: Todo[] = todosFromServer.map(todo => {
+  const { userId, ...rest } = todo;
+
+  return {
+    ...rest,
+    user: getUserById(userId),
+  };
+});
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
@@ -14,7 +27,7 @@ export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [selectedUserIdError, setSelectedUserIdError] = useState(false);
 
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(mappedTodos);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -41,7 +54,7 @@ export const App = () => {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title: title,
         completed: false,
-        userId: selectedUserId,
+        user: getUserById(selectedUserId),
       };
 
       return [...currentTodos, newTodo];
