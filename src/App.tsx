@@ -16,12 +16,14 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
+    setSelectedUserIdError(false);
   };
 
   const handleSubmut = (event: React.FormEvent) => {
@@ -55,17 +57,22 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmut}>
         <div className="field">
+          <label htmlFor="titleInput">Title:</label>
           <input
             type="text"
+            id="titleInput"
+            placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={handleInputChange}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User: </label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={handleUserChange}
