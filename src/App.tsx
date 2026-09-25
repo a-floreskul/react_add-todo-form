@@ -39,7 +39,7 @@ export const App = () => {
     setSelectedUserIdError(false);
   };
 
-  const handleSubmut = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setTitleError(!title.trim());
@@ -68,7 +68,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmut}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="titleInput">Title:</label>
           <input
